@@ -1,11 +1,15 @@
 <template>
   <div>
     <h1>User List</h1>
+
+    <search @search="handleSearch" />
+
     <button>
       <router-link :to="{ name: 'new' }">new user</router-link>
     </button>
     <ul>
-      <li v-for="user in users" :key="user.id">
+      <li v-for="user in filteredUsers" :key="user.id">
+        <img v-bind:src="user.profile.avatar" />
         {{ user.username }}
         <button>
           <router-link :to="{ name: 'edit', params: { id: user.id } }">edit</router-link>
@@ -19,11 +23,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
+import Search from './shared/Search.vue';
 import UserService from '../services/UserService';
 import type { IUser } from '../models';
 
 const users = ref<IUser[]>([]);
+const filteredUsers = ref<IUser[]>([]);
+const searchTerm = ref('');
 
 onMounted(() => {
   getUsers();
@@ -39,6 +46,19 @@ const getUsers = () => {
     });
 };
 
+const handleSearch = (newSearchTerm: string) => {
+  searchTerm.value = newSearchTerm;
+};
+
+watch([users, searchTerm], () => {
+  filteredUsers.value = filterUsers();
+});
+
+const filterUsers = () => {
+  return users.value.filter(user => user.username.toLowerCase().includes(searchTerm.value.toLowerCase()));
+};
+
+
 const deleteUser = (id: string) => {
   // todo add confirm
   UserService.delete(id)
@@ -51,5 +71,4 @@ const deleteUser = (id: string) => {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
