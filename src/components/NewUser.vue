@@ -1,35 +1,20 @@
 <template>
   <div>
-    <h1>New User</h1>
-
-    <form @submit.prevent="createUser">
-      <label>Username:</label>
-      <input v-model="user.username" required />
-      <br />
-
-      <label>First Name:</label>
-      <input v-model="user.profile.firstName" required />
-      <br />
-
-      <label>Last Name:</label>
-      <input v-model="user.profile.lastName" required />
-      <br />
-
-      <button type="submit">Submit</button>
-    </form>
+    <h1>Add User</h1>
+    
+    <user-form :user="user" :is-editing="false" @save="createUser" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import UserForm from './UserForm.vue';
 import UserService from '../services/UserService';
 import type { IUser } from '../models';
 
-const user = ref<IUser>({
-  id: '',
+const user = ref<Partial<IUser>>({
   username: '',
-  createdAt: '',
   profile: {
     firstName: '',
     lastName: ''
@@ -38,9 +23,9 @@ const user = ref<IUser>({
 
 const router = useRouter();
 
-const createUser = () => {
-  const body: IUser = {
-    ...user.value,
+const createUser = (userFormData: Partial<IUser>) => {
+  const body: Partial<IUser> = {
+    ...userFormData,
     createdAt: new Date().toDateString()
   };
 

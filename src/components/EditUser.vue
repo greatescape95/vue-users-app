@@ -2,27 +2,14 @@
   <div>
     <h1>Edit User</h1>
 
-    <form @submit.prevent="updateUser">
-      <label>Username:</label>
-      <input v-model="user.username" required />
-      <br />
-
-      <label>First Name:</label>
-      <input v-model="user.profile.firstName" required />
-      <br />
-
-      <label>Last Name:</label>
-      <input v-model="user.profile.lastName" required />
-      <br />
-
-      <button type="submit">Submit</button>
-    </form>
+    <user-form v-if="user.id" :user="user" :is-editing="true" @save="updateUser" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import UserForm from './UserForm.vue';
 import UserService from '../services/UserService';
 import type { IUser } from '../models';
 
@@ -40,7 +27,7 @@ const router = useRouter();
 
 onMounted(() => {
   const userId = <string>useRoute().params.id;
-    getUser(userId);
+  getUser(userId);
 });
 
 const getUser = (id: string) => {
@@ -53,17 +40,15 @@ const getUser = (id: string) => {
     });
 };
 
-const updateUser = () => {
-  const body = user.value
-    UserService.update(user.value.id, body)
-      .then(() => {
-        router.push('/users');
-      })
-      .catch(error => {
-        console.error(error);
-      });
+const updateUser = (userFormData: IUser) => {
+  UserService.update(user.value.id, userFormData)
+    .then(() => {
+      router.push('/users');
+    })
+    .catch(error => {
+      console.error(error);
+    });
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
