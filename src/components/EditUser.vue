@@ -40,7 +40,7 @@ const getUser = (id: string) => {
     });
 };
 
-const updateUser = (userFormData: IUser) => {
+const updateUser = (userFormData: Partial<IUser>) => {
   UserService.update(user.value.id, userFormData)
     .then(() => {
       router.push('/users');

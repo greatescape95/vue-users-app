@@ -1,5 +1,8 @@
 import './assets/main.css';
 
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+
 import { createApp } from 'vue';
 import App from './App.vue';
 import { createRouter, createWebHistory } from 'vue-router';
@@ -15,12 +18,12 @@ const routes = [
     component: UserList
   },
   {
-    path: '/edit/:id',
+    path: '/users/edit/:id',
     name: 'edit',
     component: EditUser
   },
   {
-    path: '/new',
+    path: '/users/new',
     name: 'new',
     component: NewUser
   },
@@ -37,4 +40,5 @@ const router = createRouter({
 
 const app = createApp(App);
 app.use(router);
+app.use(ElementPlus, { size: 'small', zIndex: 3000 })
 app.mount('#app');

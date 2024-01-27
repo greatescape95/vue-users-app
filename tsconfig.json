@@ -15,6 +15,7 @@
     "module": "NodeNext",
     "verbatimModuleSyntax": false,
     "strict": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "types": ["element-plus/global"]
   }
 }
