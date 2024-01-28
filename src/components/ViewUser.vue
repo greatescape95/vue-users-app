@@ -2,7 +2,9 @@
   <div>
     <nav>
       <router-link :to="{ name: 'users' }">
-        <el-icon><ArrowLeft /></el-icon>
+        <el-icon>
+          <ArrowLeft />
+        </el-icon>
       </router-link>
     </nav>
 
@@ -14,13 +16,13 @@
           <img :src="user.profile.avatar">
           <br>
           <label>Username</label>
-          <div>{{user.username}}</div>
+          <div>{{ user.username }}</div>
           <label>First Name</label>
-          <div>{{user.profile.firstName}}</div>
+          <div>{{ user.profile.firstName }}</div>
           <label>Last Name</label>
-          <div>{{user.profile.lastName}}</div>
+          <div>{{ user.profile.lastName }}</div>
           <label>Created At</label>
-          <div>{{user.createdAt}}</div>
+          <div>{{ user.createdAt }}</div>
         </div>
       </el-card>
     </div>
@@ -30,8 +32,9 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { ArrowLeft } from '@element-plus/icons-vue'
+import { ArrowLeft } from '@element-plus/icons-vue';
 import UserService from '../services/UserService';
+import UtilityService from '../services/UtilityService';
 import type { IUser } from '../models';
 
 const user = ref<IUser>({
@@ -43,7 +46,7 @@ const user = ref<IUser>({
     lastName: ''
   }
 });
-const loading = ref(true)
+const loading = ref(true);
 
 onMounted(() => {
   const userId = <string>useRoute().params.id;
@@ -54,7 +57,10 @@ const getUser = (id: string) => {
   loading.value = true;
   UserService.get(id)
     .then(response => {
-      user.value = response.data;
+      user.value = {
+        ...response.data,
+        createdAt: UtilityService.parseDate(<string>response.data.createdAt)
+      };
       loading.value = false;
     })
     .catch(error => {

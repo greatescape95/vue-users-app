@@ -25,7 +25,7 @@ const routes = [
   },
   {
     path: '/users/view/:id',
-    name: 'edit',
+    name: 'view',
     component: ViewUser
   },
   {

@@ -38,7 +38,7 @@ const createUser = (userFormData: IUser) => {
   loading.value = true;
   const body: Partial<IUser> = {
     ...userFormData,
-    createdAt: new Date().toDateString()
+    createdAt: new Date().toUTCString()
   };
 
   UserService.create(body)
