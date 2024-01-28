@@ -12,18 +12,18 @@
 
     <div v-loading="loading">
       <el-card v-if="user?.id" class="box-card">
-        <div class="card-header">
-          <img :src="user.profile.avatar">
-          <br>
-          <label>Username</label>
-          <div>{{ user.username }}</div>
-          <label>First Name</label>
-          <div>{{ user.profile.firstName }}</div>
-          <label>Last Name</label>
-          <div>{{ user.profile.lastName }}</div>
-          <label>Created At</label>
-          <div>{{ user.createdAt }}</div>
-        </div>
+        <img :src="user.profile.avatar">
+        <label>Username</label>
+        <div>{{ user.username }}</div>
+        <br>
+        <label>First Name</label>
+        <div>{{ user.profile.firstName }}</div>
+        <br>
+        <label>Last Name</label>
+        <div>{{ user.profile.lastName }}</div>
+        <el-divider />
+        <label>Created At</label>
+        <div>{{ user.createdAt }}</div>
       </el-card>
     </div>
   </div>
@@ -70,4 +70,33 @@ const getUser = (id: string) => {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+
+.box-card {
+  position: relative;
+}
+
+img {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  border-radius: 50%;
+  width: 120px;
+  height: auto;
+}
+
+@media (max-width: 600px) {
+  img {
+    width: 50px;
+  }
+}
+
+label {
+  background-color: darkgrey;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 10px;
+  text-transform: uppercase;
+  color: white;
+}
+</style>

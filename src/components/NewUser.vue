@@ -20,6 +20,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { ArrowLeft } from '@element-plus/icons-vue';
+import { ElMessage } from 'element-plus'
 import UserForm from './UserForm.vue';
 import UserService from '../services/UserService';
 import type { IUser } from '../models';
@@ -44,7 +45,7 @@ const createUser = (userFormData: IUser) => {
   UserService.create(body)
     .then(() => {
       loading.value = false;
-
+      ElMessage('User is sucessfully added.')
       router.push('/users');
     })
     .catch(error => {

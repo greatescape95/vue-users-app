@@ -50,6 +50,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
 import { Plus } from '@element-plus/icons-vue';
+import { ElMessage } from 'element-plus';
 import { useRouter } from 'vue-router';
 import Search from './shared/Search.vue';
 import UserService from '../services/UserService';
@@ -135,6 +136,7 @@ const onConfirmDelete = () => {
       dialogVisible.value = false;
       itemToDelete = null;
       loading.value = false;
+      ElMessage('User is sucessfully deleted.');
       getUsers();
     })
     .catch(error => {

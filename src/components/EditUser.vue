@@ -2,7 +2,9 @@
   <div>
     <nav>
       <router-link :to="{ name: 'users' }">
-        <el-icon><ArrowLeft /></el-icon>
+        <el-icon>
+          <ArrowLeft />
+        </el-icon>
       </router-link>
     </nav>
 
@@ -17,7 +19,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { ArrowLeft } from '@element-plus/icons-vue'
+import { ArrowLeft } from '@element-plus/icons-vue';
+import { ElMessage } from 'element-plus';
 import UserForm from './UserForm.vue';
 import UserService from '../services/UserService';
 import type { IUser } from '../models';
@@ -31,7 +34,7 @@ const user = ref<IUser>({
     lastName: ''
   }
 });
-const loading = ref(true)
+const loading = ref(true);
 const router = useRouter();
 
 onMounted(() => {
@@ -57,6 +60,7 @@ const updateUser = (userFormData: Partial<IUser>) => {
   UserService.update(<string>user.value.id, userFormData)
     .then(() => {
       loading.value = false;
+      ElMessage('User is sucessfully edited.');
       router.push('/users');
     })
     .catch(error => {
