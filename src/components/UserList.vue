@@ -12,7 +12,7 @@
     <br>
 
     <el-table v-loading="loading" :data="paginatedUsers">
-      <el-table-column fixed label="Avatar">
+      <el-table-column label="Avatar">
         <template #default="scope">
           <img v-bind:src="scope.row.profile.avatar" />
         </template>
@@ -25,6 +25,7 @@
         <template #default="scope">
           <el-button link type="primary" size="small" @click="deleteUser(scope.row.id)">Delete</el-button>
           <el-button link type="primary" size="small" @click="editUser(scope.row.id)">Edit</el-button>
+          <el-button link type="primary" size="small" @click="viewUser(scope.row.id)">View Details</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -94,6 +95,10 @@ const onPageChange = (page: number) => {
 
 const editUser = (id: string) => {
   return router.push(`/users/edit/${id}`);
+};
+
+const viewUser = (id: string) => {
+  return router.push(`/users/view/${id}`);
 };
 
 const deleteUser = (id: string) => {

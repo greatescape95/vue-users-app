@@ -9,6 +9,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import UserList from './components/UserList.vue';
 import EditUser from './components/EditUser.vue';
+import ViewUser from './components/ViewUser.vue';
 import NewUser from './components/NewUser.vue';
 
 const routes = [
@@ -21,6 +22,11 @@ const routes = [
     path: '/users/edit/:id',
     name: 'edit',
     component: EditUser
+  },
+  {
+    path: '/users/view/:id',
+    name: 'edit',
+    component: ViewUser
   },
   {
     path: '/users/new',
