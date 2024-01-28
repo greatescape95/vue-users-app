@@ -57,6 +57,7 @@ onMounted(() => {
 });
 
 const getUsers = () => {
+  loading.value = true;
   UserService.getAll()
     .then(response => {
       users.value = response.data;

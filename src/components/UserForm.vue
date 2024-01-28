@@ -1,34 +1,81 @@
 <template>
-  <form @submit.prevent="handleSubmit">
-    <label for="username">Username:</label>
-    <input v-model="user.username" required />
-    <br />
+  <el-form ref="userFormRef" :model="userForm" :rules="rules" :size="formSize">
+    <el-form-item label="Username" prop="username">
+      <el-input v-model="userForm.username" />
+    </el-form-item>
 
-    <label for="firstName">First Name:</label>
-    <input v-model="user.profile.firstName" required />
-    <br />
+    <el-form-item label="First Name" prop="firstName">
+      <el-input v-model="userForm.firstName" />
+    </el-form-item>
 
-    <label for="lastName">Last Name:</label>
-    <input v-model="user.profile.lastName" required />
-    <br />
+    <el-form-item label="Last Name" prop="lastName">
+      <el-input v-model="userForm.lastName" />
+    </el-form-item>
 
-    <button type="submit">{{ isEditing ? 'Update' : 'Add' }}</button>
-  </form>
+    <el-form-item>
+      <el-button type="primary" @click="submitForm(userFormRef)" :disabled="!isValid()">
+        {{ isEditing ? 'Update' : 'Add' }}
+      </el-button>
+    </el-form-item>
+  </el-form>
 </template>
 
-<script setup>
-import { ref, defineProps } from 'vue';
+<script setup lang="ts">
+import { ref, reactive } from 'vue';
+import type { FormInstance, FormRules } from 'element-plus';
+import type { IUser } from '../models';
 
-const { user: initialUser, isEditing: initialIsEditing } = defineProps(['user', 'isEditing']);
+interface UserForm {
+  username: string;
+  firstName: string;
+  lastName: string;
+}
+
+const { user, isEditing } = defineProps<{ user: IUser, isEditing: boolean; }>();
 const emit = defineEmits(['save']);
 
-const user = ref({ ...initialUser });
-const isEditing = ref(initialIsEditing);
+const formSize = ref('default');
+const userFormRef = ref();
+const userForm = reactive<UserForm>({
+  username: user.username,
+  firstName: user.profile.firstName,
+  lastName: user.profile.lastName
+});
 
-const handleSubmit = () => {
-  emit('save', user.value);
+const rules = reactive<FormRules<UserForm>>({
+  username: [
+    { required: true, message: 'Please input Username.', trigger: 'blur' },
+  ],
+  firstName: [
+    { required: true, message: 'Please input First Name.', trigger: 'blur' },
+  ],
+  lastName: [
+    { required: true, message: 'Please input Last Name', trigger: 'blur' },
+  ]
+});
+
+const isValid = () => {
+  return userForm.username && userForm.firstName && userForm.lastName;
+};
+
+const submitForm = async (formEl: FormInstance) => {
+  if (!formEl) return;
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      emit('save', {
+        ...user,
+        username: userForm.username,
+        profile: {
+          ...user.profile,
+          firstName: userForm.firstName,
+          lastName: userForm.lastName,
+        }
+      });
+    } else {
+      console.log('error submiting', fields);
+    }
+  });
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

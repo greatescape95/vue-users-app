@@ -1,14 +1,16 @@
 <template>
   <div>
-    <h1>Edit User</h1>
-
     <nav>
       <router-link :to="{ name: 'users' }">
         <el-icon><ArrowLeft /></el-icon>
       </router-link>
     </nav>
 
-    <user-form v-if="user.id" :user="user" :is-editing="true" @save="updateUser" />
+    <h1>Edit User</h1>
+
+    <div v-loading="loading">
+      <user-form v-if="user.id" :user="user" :is-editing="true" @save="updateUser" />
+    </div>
   </div>
 </template>
 
@@ -29,7 +31,7 @@ const user = ref<IUser>({
     lastName: ''
   }
 });
-
+const loading = ref(true)
 const router = useRouter();
 
 onMounted(() => {
@@ -38,21 +40,27 @@ onMounted(() => {
 });
 
 const getUser = (id: string) => {
+  loading.value = true;
   UserService.get(id)
     .then(response => {
       user.value = response.data;
+      loading.value = false;
     })
     .catch(error => {
       console.error(error);
+      loading.value = false;
     });
 };
 
 const updateUser = (userFormData: Partial<IUser>) => {
+  loading.value = true;
   UserService.update(user.value.id, userFormData)
     .then(() => {
+      loading.value = false;
       router.push('/users');
     })
     .catch(error => {
+      loading.value = false;
       console.error(error);
     });
 };
