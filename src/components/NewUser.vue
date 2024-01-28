@@ -24,7 +24,7 @@ import UserForm from './UserForm.vue';
 import UserService from '../services/UserService';
 import type { IUser } from '../models';
 
-const user = ref<Partial<IUser>>({
+const user = ref<IUser>({
   username: '',
   profile: {
     firstName: '',
@@ -34,7 +34,7 @@ const user = ref<Partial<IUser>>({
 const loading = ref(false);
 const router = useRouter();
 
-const createUser = (userFormData: Partial<IUser>) => {
+const createUser = (userFormData: IUser) => {
   loading.value = true;
   const body: Partial<IUser> = {
     ...userFormData,

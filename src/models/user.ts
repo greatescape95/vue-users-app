@@ -5,8 +5,8 @@ export interface IProfile {
 }
 
 export interface IUser {
-  createdAt: string;
-  id: string;
+  createdAt?: string;
+  id?: string;
   profile: IProfile;
   username: string;
 }

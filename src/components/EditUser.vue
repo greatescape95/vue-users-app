@@ -54,7 +54,7 @@ const getUser = (id: string) => {
 
 const updateUser = (userFormData: Partial<IUser>) => {
   loading.value = true;
-  UserService.update(user.value.id, userFormData)
+  UserService.update(<string>user.value.id, userFormData)
     .then(() => {
       loading.value = false;
       router.push('/users');
