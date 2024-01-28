@@ -2,7 +2,7 @@
   <div>
     <nav>
       <router-link :to="{ name: 'users' }">
-        <el-icon>
+        <el-icon class="cy-button-back">
           <ArrowLeft />
         </el-icon>
       </router-link>

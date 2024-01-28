@@ -3,7 +3,7 @@
 
   <nav>
     <router-link :to="{ name: 'new' }">
-      <el-icon>
+      <el-icon class="cy-new-button">
         <Plus />
       </el-icon>
     </router-link>

@@ -1,12 +1,19 @@
 <template>
   <div>
-    <el-input v-model="searchTerm" :placeholder="'Search by ' + searchProperty" :prefix-icon="Search" clearable @input="searchItems" @clear="clearSearch" />
+    <el-input 
+      class="cy-search" 
+      v-model="searchTerm" 
+      :placeholder="'Search by ' + searchProperty" 
+      :prefix-icon="Search" 
+      clearable 
+      @input="searchItems" 
+      @clear="clearSearch" />
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import { Search } from '@element-plus/icons-vue'
+import { Search } from '@element-plus/icons-vue';
 
 const { searchProperty } = defineProps(['searchProperty']);
 const emit = defineEmits(['search']);

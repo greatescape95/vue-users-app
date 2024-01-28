@@ -1,19 +1,19 @@
 <template>
   <el-form ref="userFormRef" :model="userForm" :rules="rules" :size="formSize">
     <el-form-item label="Username" prop="username">
-      <el-input v-model="userForm.username" />
+      <el-input v-model="userForm.username" name="username" />
     </el-form-item>
 
     <el-form-item label="First Name" prop="firstName">
-      <el-input v-model="userForm.firstName" />
+      <el-input v-model="userForm.firstName" name="firstName" />
     </el-form-item>
 
     <el-form-item label="Last Name" prop="lastName">
-      <el-input v-model="userForm.lastName" />
+      <el-input v-model="userForm.lastName" name="lastName" />
     </el-form-item>
 
     <el-form-item>
-      <el-button type="primary" @click="submitForm(userFormRef)" :disabled="!isValid()">
+      <el-button type="primary" class="cy-submit-user" @click="submitForm(userFormRef)" :disabled="!isValid()">
         {{ isEditing ? 'Update' : 'Add' }}
       </el-button>
     </el-form-item>
