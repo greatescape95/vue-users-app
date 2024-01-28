@@ -1,6 +1,12 @@
 <template>
   <div>
     <h1>Add User</h1>
+
+    <nav>
+      <router-link :to="{ name: 'users' }">
+        <el-icon><ArrowLeft /></el-icon>
+      </router-link>
+    </nav>
     
     <user-form :user="user" :is-editing="false" @save="createUser" />
   </div>
@@ -9,6 +15,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { ArrowLeft } from '@element-plus/icons-vue'
 import UserForm from './UserForm.vue';
 import UserService from '../services/UserService';
 import type { IUser } from '../models';

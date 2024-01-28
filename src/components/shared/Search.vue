@@ -1,20 +1,17 @@
 <template>
   <div>
-    <label :for="inputId">Search by {{ searchProperty }}:</label>
-    <input v-model="searchTerm" @input="searchItems" :id="inputId" />
-
-    <button @click="clearSearch">Clear</button>
+    <el-input v-model="searchTerm" :placeholder="'Search by ' + searchProperty" :prefix-icon="Search" clearable @input="searchItems" @clear="clearSearch" />
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
+import { Search } from '@element-plus/icons-vue'
 
 const { searchProperty } = defineProps(['searchProperty']);
 const emit = defineEmits(['search']);
 
 const searchTerm = ref('');
-const inputId = `search-${searchProperty}`;
 
 const searchItems = () => {
   emit('search', searchTerm.value);

@@ -14,3 +14,11 @@ a,
   transition: 0.4s;
   padding: 3px;
 }
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 20px;
+}

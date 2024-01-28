@@ -1,14 +1,17 @@
 <template>
   <div>
-    <h1>User List</h1>
+    <h1>Users</h1>
 
-    <search @search="handleSearch" />
+    <nav>
+      <router-link :to="{ name: 'new' }">
+        <el-icon><Plus /></el-icon>
+      </router-link>
+      <search @search="handleSearch" :searchProperty="'username'" />
+    </nav>
 
-    <button>
-      <router-link :to="{ name: 'new' }">new user</router-link>
-    </button>
+    <br>
 
-    <el-table :data="paginatedUsers">
+    <el-table v-loading="loading" :data="paginatedUsers">
       <el-table-column fixed label="Avatar">
         <template #default="scope">
           <img v-bind:src="scope.row.profile.avatar" />
@@ -32,6 +35,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
+import { Plus } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router';
 import Search from './shared/Search.vue';
 import UserService from '../services/UserService';
@@ -41,8 +45,9 @@ const users = ref<IUser[]>([]);
 const filteredUsers = ref<IUser[]>([]);
 const paginatedUsers = ref<IUser[]>([]);
 const searchTerm = ref('');
+const loading = ref(true)
 
-const itemsPerPage = ref(5);
+const itemsPerPage = ref(10);
 const currentPage = ref(1);
 
 const router = useRouter();
@@ -55,6 +60,7 @@ const getUsers = () => {
   UserService.getAll()
     .then(response => {
       users.value = response.data;
+      loading.value = false;
     })
     .catch(error => {
       console.error(error);
